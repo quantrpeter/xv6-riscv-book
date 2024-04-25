@@ -2,7 +2,8 @@ SRC=xv6-riscv-src/
 
 T=latex.out
 
-TEX=$(wildcard $(T)/*.tex)
+#TEX=$(wildcard $(T)/*.tex)
+TEX=$(patsubst %,$(T)/%,$(wildcard *.tex))
 SPELLTEX=$(wildcard *.tex)
 
 all: book.pdf
@@ -14,7 +15,7 @@ $(T)/%.tex: %.tex | src
 
 src:
 	if [ ! -d $(SRC) ]; then \
-		git clone git@github.com:mit-pdos/xv6-riscv.git $(SRC) ; \
+		git clone https://github.com/mit-pdos/xv6-riscv.git $(SRC) ; \
 	else \
 		git -C $(SRC) pull ; \
 	fi; \
