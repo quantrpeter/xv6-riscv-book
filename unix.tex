@@ -13,13 +13,11 @@ that they run (or appear to run) at the same time.
 Finally, operating systems provide controlled ways for programs
 to interact, so that they can share data or work together.
 
-\vfill
-作業系統的工作是共享計算機多個程式並提供一組更有用的服務比硬體單獨支援的。
+\noindent 作業系統的工作是共享計算機多個程式並提供一組更有用的服務比硬體單獨支援的。
 作業系統管理與抽象低階硬件，因此，例如，文字處理程式不需要關心哪種類型正在使用磁碟硬體。
 作業系統在多個程式之間共享硬體，因此他們同時運行（或看起來同時運行）。
-最後，作業系統為程式提供了受控方式進行交互，以便他們可以共享數據或一起工作。
+最後，作業系統為程式提供了受控方式進行交互，以便他們可以共享數據或一起工作。\\
 
-\vfill
 An operating system provides services to user programs through an interface.
 \index{interface design介面設計}
 Designing a good interface turns out to be
@@ -31,13 +29,12 @@ The trick in
 resolving this tension is to design interfaces that rely on a few
 mechanisms that can be combined to provide much generality.
 
-
 作業系統透過介面向用戶程式提供服務。
 \index{interface design介面設計}
 設計一個好的介面結果是難的。 
 一方面，我們希望介面是簡單而狹窄，因為這樣比較容易取得執行權。 
 另一方面，我們可能會想為應用程式提供許多複雜的功能。
-訣竅在於解決這種緊張的方法是設計依賴一些可以組合起來提供更多通用性的機制。
+訣竅在於解決這種緊張的方法是設計依賴一些可以組合起來提供更多通用性的機制。\\
 
 
 This book uses a single operating system as a concrete example to
@@ -51,6 +48,12 @@ modern operating systems—BSD, Linux, macOS, Solaris, and even, to a
 lesser extent, Microsoft Windows—have Unix-like interfaces.
 Understanding xv6 is a good start toward understanding any of these
 systems and many others.
+
+本書以單一作業系統為例來說明說明作業系統概念。 
+那個作業系統，xv6，提供了Ken Thompson引入的基本介面和Dennis Ritchie 的 Unix 作業系統~\cite{unix}，以及模仿Unix內部設計。 
+Unix 提供了一個狹窄的接口，其機制結合得很好，提供了令人驚訝的通用程度。 這個介面非常成功現代作業系統－BSD、Linux、macOS、Solaris，
+甚至較小程度上，Microsoft Windows 具有類似 Unix 的介面。
+了解 xv6 是了解其中任何一個的良好開端系統。\\
 
 As 
 Figure~\ref{fig:os} shows,
@@ -67,6 +70,11 @@ the computation acts. The stack organizes the program's procedure calls.
 A given computer typically has many processes but only a single
 kernel.
 
+作為圖~\ref{fig:os} 顯示，xv6 採用傳統形式 \indextext{內核},一個特殊的程序，提供為正在運行的程式提供服務。
+每個正在運行的程序，稱為 \indextext{進程}, 具有包含指令、資料和堆疊的記憶體。 
+這些指令執行程式的計算。 數據是變數計算行為。 堆疊組織程序的過程呼叫。
+一台給定的電腦通常有許多進程，但只有一個核心。\\
+
 When a
 process needs to invoke a kernel service, it invokes 
 a \indextext{system call},
@@ -78,6 +86,12 @@ Thus a process alternates between executing in
 \indextext{user space}
 and
 \indextext{kernel space}.
+
+當一個進程需要調用內核服務，它調用一個 \indextext{系統呼叫}，其中一個調用是在作業系統的介面中。
+系統呼叫進入核心；內核執行服務並返回。因此，一個行程交替執行
+\indextext{使用者空間}
+和
+\indextext{內核空間}。\\
 
 As described in detail in subsequent chapters, the kernel uses the hardware protection mechanisms provided by a
 CPU\footnote{
@@ -96,6 +110,13 @@ When a user program invokes a system call, the hardware
 raises the privilege level and starts executing a pre-arranged
 function in the kernel.
 
+正如後續章節中詳細描述的，內核使用由CPU \footnote{
+該文字通常指的是執行某個操作的硬體元件使用術語 \indextext{CPU} 進行計算，這是central 的縮寫處理單元。 其他文件（例如 RISC-V 規範）也使用字詞「處理器」、「核心」和「hart」來取代「CPU」。
+}
+到確保在使用者空間中執行的每個程序只能存取它自己的記憶。
+內核以所需的硬體權限執行實施這些保護措施； 用戶程式無需執行那些特權。
+當使用者程式呼叫系統呼叫時，硬體提升權限等級並開始執行預先安排的內核中的函數。\\
+
 \begin{figure}[t]
 \center
 \includegraphics[scale=0.5]{fig/os.pdf}
@@ -110,12 +131,22 @@ that Unix kernels traditionally offer.
 Figure~\ref{fig:api} 
 lists all of xv6's system calls.
 
+內核提供的系統呼叫的集合是使用者程式看到的介面。
+xv6 核心提供服務和系統呼叫的子集Unix 核心傳統上提供的。
+圖~\ref{fig:api}
+列出 xv6 的所有系統呼叫。\\
+
 The rest of this chapter outlines xv6's services---processes, memory,
 file descriptors, pipes, and a file system---and illustrates them with
 code snippets and discussions of how the \indextext{shell}, 
 Unix's command-line user interface, uses
 them. The shell's use of system calls illustrates how carefully they
 have been designed.
+
+本章的其餘部分概述了 xv6 的服務——進程、記憶體、文件描述符、
+管道和文件系統——並用以下方式說明它們程式碼片段和 \indextext{shell} 如何使用的討論，
+Unix 的命令列使用者介面，使用他們。 
+shell 對系統呼叫的使用說明了它們是多麼仔細已被設計。\\
 
 The shell is an ordinary program that reads commands from the user
 and executes them.
@@ -129,10 +160,20 @@ and scripting features.
 The xv6 shell is a simple implementation of the essence of
 the Unix Bourne shell.  Its implementation can be found at 
 \lineref{user/sh.c:1}.
+
+Shell是一個普通的程序，它讀取使用者的命令並處死他們。
+事實上 shell 是一個使用者程序，而不是核心的一部分，
+說明了系統呼叫介面的強大之處：沒有什麼特別是外殼。
+這也意味著外殼易於更換； 因此，現代 Unix 系統有多種
+可供選擇的 shell，每個都有自己的使用者介面和腳本功能。
+xv6 shell 是本質的簡單實現Unix Bourne shell。
+它的實作可以在以下位置找到
+\lineref{user/sh.c:1}。\\
+
 %% 
-%% 	Processes and memory
+%% 	Processes and memory進程和記憶體
 %% 
-\section{Processes and memory}
+\section{Processes and memory進程和記憶體}
 
 An xv6 process consists of user-space memory (instructions, data, and stack)
 and per-process state private to the kernel.
@@ -146,13 +187,23 @@ The kernel associates a process identifier, or
 \indexcode{PID},
 with each process.
 
+xv6 程序由使用者空間記憶體（指令、資料和堆疊）組成以及核心私有的每個行程狀態。
+Xv6
+\indextext{分時}
+進程：它透明地切換可用的CPU在等待執行的進程集中。
+當進程沒有執行時，xv6保存進程的CPU暫存器，
+下次運行該進程時恢復它們。
+內核關聯一個進程標識符，或者
+\indexcode{PID},
+與每個過程。\\
+
 \begin{figure}[t]
 \center
 \begin{tabular}{ll}
 {\bf System call} & {\bf Description} \\
 \midrule
-int fork() & Create a process, return child's PID. \\
-int exit(int status) & Terminate the current process; status reported to wait(). No return. \\
+int fork() & Create a process, return child's PID. 建立一個進程，返回子進程的PID。 \\
+int exit(int status) & Terminate the current process; status reported to wait(). No return. 終止當前進程； 狀態報告給 wait()。 沒有回報。 \\
 int wait(int *status) & Wait for a child to exit; exit status in *status; returns child PID. \\
 int kill(int pid) & Terminate process PID. Returns 0, or -1 for error. \\
 int getpid() & Return the current process's PID. \\
