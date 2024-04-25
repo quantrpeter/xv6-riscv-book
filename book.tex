@@ -13,6 +13,7 @@
 \usepackage{fullpage}
 \usepackage{soul}
 \usepackage[utf8]{inputenc}
+\usepackage{CJKutf8}
 
 \usepackage{hyperref}  % should be last
 
@@ -45,12 +46,13 @@
 %% for publishing book without notes
 %\renewcommand{\insertnote}[3]{}
 
-\title{\textbf{xv6: a simple, Unix-like teaching operating system}}
-\author{Russ Cox \and Frans Kaashoek \and Robert Morris}
+\title{\textbf{xv6: a simple, Unix-like teaching operating system \newline \newline xv6：一個簡單的類別Unix教學作業系統 \newline \newline (香港繁體中文譯本)}}
+\author{Russ Cox \and Frans Kaashoek \and Robert Morris \and Peter Cheung (香港編程學會, 譯者)} 
 
 \makeindex
 
 \begin{document}
+\begin{CJK}{UTF8}{bsmi}
 
 \maketitle
 
@@ -83,4 +85,5 @@
 
 \printindex
 
+\end{CJK}
 \end{document}
