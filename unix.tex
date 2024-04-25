@@ -1,4 +1,4 @@
-\chapter{Operating system interfaces}
+\chapter{Operating system interfaces作業系統介面}
 \label{CH:UNIX}
 
 The job of an operating system is to share a computer among
@@ -13,8 +13,15 @@ that they run (or appear to run) at the same time.
 Finally, operating systems provide controlled ways for programs
 to interact, so that they can share data or work together.
 
+\vfill
+作業系統的工作是共享計算機多個程式並提供一組更有用的服務比硬體單獨支援的。
+作業系統管理與抽象低階硬件，因此，例如，文字處理程式不需要關心哪種類型正在使用磁碟硬體。
+作業系統在多個程式之間共享硬體，因此他們同時運行（或看起來同時運行）。
+最後，作業系統為程式提供了受控方式進行交互，以便他們可以共享數據或一起工作。
+
+\vfill
 An operating system provides services to user programs through an interface.
-\index{interface design}
+\index{interface design介面設計}
 Designing a good interface turns out to be
 difficult.  On the one hand, we would like the interface to be
 simple and narrow because that makes it easier to get the
@@ -23,6 +30,15 @@ we may be tempted to offer many sophisticated features to applications.
 The trick in
 resolving this tension is to design interfaces that rely on a few
 mechanisms that can be combined to provide much generality.
+
+
+作業系統透過介面向用戶程式提供服務。
+\index{interface design介面設計}
+設計一個好的介面結果是難的。 
+一方面，我們希望介面是簡單而狹窄，因為這樣比較容易取得執行權。 
+另一方面，我們可能會想為應用程式提供許多複雜的功能。
+訣竅在於解決這種緊張的方法是設計依賴一些可以組合起來提供更多通用性的機制。
+
 
 This book uses a single operating system as a concrete example to
 illustrate operating system concepts.  That operating system,
