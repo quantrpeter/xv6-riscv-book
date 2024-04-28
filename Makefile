@@ -14,11 +14,11 @@ $(T)/%.tex: %.tex | src
 	./lineref $(notdir $@) $(SRC) > $@
 
 src:
-	# if [ ! -d $(SRC) ]; then \
-	# 	git clone https://github.com/mit-pdos/xv6-riscv.git $(SRC) ; \
-	# else \
-	# 	git -C $(SRC) pull ; \
-	# fi; \
+	if [ ! -d $(SRC) ]; then \
+		git clone https://github.com/mit-pdos/xv6-riscv.git $(SRC) ; \
+	else \
+		git -C $(SRC) pull ; \
+	fi; \
 	true
 
 book.pdf: src book.tex $(TEX)
